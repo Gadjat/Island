@@ -18,6 +18,7 @@ public class Herbivore extends Animal {
 
     }
 
+    //moving перенести в Animal
     @Override
     public void reproducing(Cell cell) {
 

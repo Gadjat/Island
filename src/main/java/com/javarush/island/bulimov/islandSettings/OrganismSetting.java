@@ -10,6 +10,6 @@ public class OrganismSetting {
     private HashMap<Organism, Limits> animals = new HashMap<>();
 
     private OrganismSetting(){
-        animals.put(Wolf);
+
     }
 }

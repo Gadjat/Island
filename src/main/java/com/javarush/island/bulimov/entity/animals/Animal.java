@@ -21,9 +21,8 @@ public abstract class Animal extends Organism implements Eating, Movable {
         this.saturation = saturation;
     }
 
-    public abstract void eating(Cell cell);
-    public abstract void moving(Cell cell);
-    public abstract void reproducing(Cell cell);
+
+
 
 
 }

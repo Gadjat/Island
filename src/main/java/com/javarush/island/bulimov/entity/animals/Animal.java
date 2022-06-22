@@ -5,7 +5,7 @@ import com.javarush.island.bulimov.abstractions.Movable;
 import com.javarush.island.bulimov.abstractions.Organism;
 import com.javarush.island.bulimov.islandMap.Cell;
 
-public abstract class Animal extends Organism implements Eating, Movable {
+public abstract class Animal extends Organism implements Eating, Movable, Cloneable {
     public int maxSpeedInCell;
     public double maxSaturation;
     public double saturation;

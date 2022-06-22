@@ -2,7 +2,9 @@ package com.javarush.island.bulimov.entity.animals.carnivores;
 
 import com.javarush.island.bulimov.entity.animals.Animal;
 import com.javarush.island.bulimov.entity.animals.herbivores.Herbivore;
+import com.javarush.island.bulimov.exception.IslandRunException;
 import com.javarush.island.bulimov.islandMap.Cell;
+import com.javarush.island.bulimov.islandMap.IslandMapCreator;
 import com.javarush.island.bulimov.resources.AnimalsEatPercent;
 import com.javarush.island.bulimov.resources.Percent;
 
@@ -38,7 +40,7 @@ public class Carnivore extends Animal {
 
     @Override
     public void moving(Cell cell) {
-
+        IslandMapCreator.getAnimalMap()[cell.column][cell.line].carnivores.remove(this);
         int rout = ThreadLocalRandom.current().nextInt(0,4);
         switch (rout){
             case 1 -> {
@@ -70,11 +72,15 @@ public class Carnivore extends Animal {
                 }
             }
         }
-        //дописать перемещение по карте и саму карту
+        IslandMapCreator.getAnimalMap()[cell.column][cell.line].carnivores.add(this);
     }
 
     @Override
-    public void reproducing(Cell cell) throws InstantiationException, IllegalAccessException {
-        cell.herbivores.add(new Herbivore()); // дописать сюда получение класса через парсер
+    public void reproducing(Cell cell)  {
+        try {
+            cell.carnivores.add((Carnivore) this.clone()); // дописать сюда получение класса через парсер
+        } catch (CloneNotSupportedException e) {
+            throw new IslandRunException("reproducing error "+e);
+        }
     }
 }

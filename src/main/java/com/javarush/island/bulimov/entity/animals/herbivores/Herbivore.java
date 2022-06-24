@@ -1,14 +1,9 @@
 package com.javarush.island.bulimov.entity.animals.herbivores;
 
 import com.javarush.island.bulimov.entity.animals.Animal;
-import com.javarush.island.bulimov.entity.animals.carnivores.Carnivore;
-import com.javarush.island.bulimov.exception.IslandRunException;
 import com.javarush.island.bulimov.islandMap.Cell;
 import com.javarush.island.bulimov.islandMap.IslandMapCreator;
-import com.javarush.island.bulimov.resources.AnimalsEatPercent;
-import com.javarush.island.bulimov.resources.Percent;
 
-import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Herbivore extends Animal {
@@ -18,29 +13,14 @@ public class Herbivore extends Animal {
 
     @Override
     public void eating(Cell cell) {
-        for (Herbivore herbivore : cell.herbivores) {
-            if(!herbivore.hold && this.saturation != this.maxSaturation){
-                herbivore.hold = true;
-                HashSet<Percent> percents = AnimalsEatPercent.getInstance().getEatPercent().get(this.name);
-                for (Percent percent : percents) {
-                    if(herbivore.name.equals(percent.getName())){
-                        if(herbivore.weight + this.saturation >= this.maxSaturation){
-                            this.saturation = this.maxSaturation;
-                        }
-                        else{
-                            this.saturation+= herbivore.weight;
-                        }
-                        herbivore.weight = 0;
-                    }
-                }
-
-            }
-        }
+        cell.getLock().lock();
+        cell.getLock().unlock();
     } // переделпть под траву
 
     @Override
     public void moving(Cell cell) {
-        IslandMapCreator.getAnimalMap()[cell.column][cell.line].herbivores.remove(this);
+        cell.getLock().lock();
+
         int rout = ThreadLocalRandom.current().nextInt(0,4);
         switch (rout){
             case 1 -> {
@@ -72,15 +52,20 @@ public class Herbivore extends Animal {
                 }
             }
         }
-        IslandMapCreator.getAnimalMap()[cell.column][cell.line].herbivores.add(this);
+
+        cell.getLock().unlock();
     }
 
     @Override
     public void reproducing(Cell cell)  {
-        try {
-            cell.herbivores.add((Herbivore) this.clone()); // дописать сюда получение класса через парсер
-        } catch (CloneNotSupportedException e) {
-            throw new IslandRunException("reproducing error "+e);
-        }
+        cell.getLock().lock();
+
+        cell.getLock().unlock();
+    }
+
+    private Animal findEat(Cell cell){
+
+
+        return null;
     }
 }

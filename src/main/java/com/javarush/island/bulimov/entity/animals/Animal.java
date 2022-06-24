@@ -2,10 +2,9 @@ package com.javarush.island.bulimov.entity.animals;
 
 import com.javarush.island.bulimov.abstractions.Eating;
 import com.javarush.island.bulimov.abstractions.Movable;
-import com.javarush.island.bulimov.abstractions.Organism;
-import com.javarush.island.bulimov.islandMap.Cell;
+import com.javarush.island.bulimov.entity.Organism;
 
-public abstract class Animal extends Organism implements Eating, Movable, Cloneable {
+public abstract class Animal extends Organism implements Eating, Movable {
     public int maxSpeedInCell;
     public double maxSaturation;
     public double saturation;

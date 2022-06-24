@@ -10,13 +10,16 @@ public abstract class Organism implements Reproducing, Cloneable{
 
     public int maxItemCell;
 
+    public double saturation;
+
     public boolean hold = false;
 
 
 
-    public Organism(double weight, int maxItemCell) {
+    public Organism(double weight, int maxItemCell , double saturation) {
         this.weight = weight;
         this.maxItemCell = maxItemCell;
+        this.saturation = saturation;
     }
 
     @Override

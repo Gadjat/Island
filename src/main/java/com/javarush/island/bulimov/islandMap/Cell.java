@@ -35,6 +35,6 @@ public class Cell {
 
 
     public void toStringAnimal() {
-        animalsCell.forEach((s,s1) -> System.out.print(s + " "+ s1.size() + "  "));
+        animalsCell.forEach((s,s1) -> System.out.print("|" + s + " "+ s1.size() + "|" + "  "));
     }
 }

@@ -1,29 +1,53 @@
 package com.javarush.island.bulimov.islandSettings;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.javarush.island.bulimov.entity.Organism;
-import com.javarush.island.bulimov.entity.animals.carnivores.Wolf;
-import com.javarush.island.bulimov.entity.animals.herbivores.Horse;
+import com.javarush.island.bulimov.entity.animals.carnivores.*;
+import com.javarush.island.bulimov.entity.animals.herbivores.*;
 import com.javarush.island.bulimov.entity.plants.Plant;
+import com.javarush.island.bulimov.exception.IslandRunException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.net.URL;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class OrganismSetting {
-    private static HashSet<Organism> animals = new HashSet<Organism>(15){};
+
+    private static HashSet<Organism> animals = new HashSet<Organism>(){};
     static{
-        animals.add(new Wolf(50.0, 30, 3, 8,ThreadLocalRandom.current().nextDouble(4.0, 8.0)));
-        animals.add(new Horse(400.0, 20, 4, 60,ThreadLocalRandom.current().nextDouble(30.0, 60.0)));
-        animals.add(new Plant(1.0, 200));
+        animals.add(new Wolf(50.0, 30, 3, 8,4.0));
+        animals.add(new Boa(15, 30, 1, 3,1.5));
+        animals.add(new Fox(8, 30, 2, 2,1.0));
+        animals.add(new Bear(500, 5, 2, 80,40.0));
+        animals.add(new Eagle(6, 20, 3, 1,0.5));
+
+        animals.add(new Horse(400.0, 20, 4, 60,30.0));
+        animals.add(new Deer(300, 20, 4, 50,25.0));
+        animals.add(new Rabbit(2, 150, 2, 0.45,0.15));
+        animals.add(new Mouse(0.05, 500, 1, 0.01,0.005));
+        animals.add(new Goat(60, 140, 3, 10,5.0));
+        animals.add(new Sheep(70, 140, 3, 15,7.0));
+        animals.add(new Boar(400, 50, 2, 50,25.0));
+        animals.add(new Buffalo(700, 10, 3, 100,50.0));
+        animals.add(new Duck(1, 200, 4, 0.15,0.5));
+        animals.add(new Caterpillar(0.01, 1000, 0, 0,0));
+        animals.add(new Plant(1.0, 200, 0));
     }
 
     public static HashSet<Organism> getAnimals() {
         return animals;
     }
+
+
+
+
 
     static String[] names = {
             "Wolf", "Boa", "Fox", "Bear", "Eagle",
@@ -58,10 +82,11 @@ public class OrganismSetting {
         return percent;
     }
 
-    public static void main(String[] args) throws IOException {
-        ObjectMapper yaml = new ObjectMapper(new YAMLFactory());
-        yaml.enable(SerializationFeature.INDENT_OUTPUT);
-        HashSet<Organism> animalsEatPercent = OrganismSetting.getAnimals();
-        yaml.writeValue(new File("setting.yaml"), animalsEatPercent);
-    }
+//    public static void main(String[] args) throws IOException {
+//        ObjectMapper yaml = new ObjectMapper(new YAMLFactory());
+//        yaml.enable(SerializationFeature.INDENT_OUTPUT);
+//        HashSet<Organism> animalsEatPercent = OrganismSetting.getAnimals();
+//        yaml.writeValue(new File("setting.yaml"), animalsEatPercent);
+//
+//    }
 }

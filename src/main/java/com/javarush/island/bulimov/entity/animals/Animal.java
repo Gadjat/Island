@@ -7,17 +7,17 @@ import com.javarush.island.bulimov.entity.Organism;
 public abstract class Animal extends Organism implements Eating, Movable {
     public int maxSpeedInCell;
     public double maxSaturation;
-    public double saturation;
+
     public boolean pregnancy = false;
     public int pregnancyProgressInCell = 1;
     public boolean check = false;
 
 
     public Animal(double weight, int maxItemCell, int maxSpeedInCell, double maxSaturation, double saturation) {
-        super(weight, maxItemCell);
+        super(weight, maxItemCell, saturation);
         this.maxSpeedInCell = maxSpeedInCell;
         this.maxSaturation = maxSaturation;
-        this.saturation = saturation;
+
     }
 
 

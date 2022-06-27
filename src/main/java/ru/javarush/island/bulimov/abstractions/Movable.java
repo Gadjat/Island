@@ -4,5 +4,5 @@ import ru.javarush.island.bulimov.islandMap.Cell;
 
 @FunctionalInterface
 public interface Movable {
-    void moving(Cell cell);
+    boolean moving(Cell cell);
 }

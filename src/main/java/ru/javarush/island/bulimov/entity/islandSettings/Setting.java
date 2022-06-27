@@ -1,4 +1,4 @@
-package ru.javarush.island.bulimov.islandSettings;
+package ru.javarush.island.bulimov.entity.islandSettings;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,8 +50,4 @@ public class Setting {
         return getPROTOTYPES().toString();
     }
 
-    public static void main(String[] args) {
-        Setting setting = new Setting();
-        System.out.println(setting.toString());
-    }
 }

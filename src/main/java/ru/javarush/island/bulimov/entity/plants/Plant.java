@@ -10,13 +10,5 @@ public class Plant extends Organism {
         super(weight, maxItemCell, saturation);
         this.name = "Plant";
     }
-    @Override
-    public void reproducing(Cell cell) {
-        cell.getLock().lock();
-        if(cell.getAnimalsCell().get(this.name).size() <= this.maxItemCell){
-            cell.getAnimalsCell().get(this.name).add(Organism.clone(this));
-        }
-        cell.getLock().unlock();
 
-    }
 }

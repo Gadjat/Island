@@ -1,7 +1,7 @@
 package ru.javarush.island.bulimov.islandMap;
 
 import ru.javarush.island.bulimov.entity.Organism;
-import ru.javarush.island.bulimov.islandSettings.OrganismSetting;
+import ru.javarush.island.bulimov.entity.islandSettings.OrganismSetting;
 
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
@@ -38,16 +38,6 @@ public class IslandMapCreator {
     }
     public static Cell[][] getAnimalMap() {
         return animalMap;
-    }
-
-    public static void main(String[] args) {
-        IslandMapCreator islandMapCreator = new IslandMapCreator(100, 20);
-        islandMapCreator.createMap();
-        for (int i = 0; i < getAnimalMap().length; i++) {
-            for (int j = 0; j < islandMapCreator.getAnimalMap()[i].length; j++) {
-                islandMapCreator.getAnimalMap()[i][j].toStringAnimal();
-            }
-        }
     }
 
 

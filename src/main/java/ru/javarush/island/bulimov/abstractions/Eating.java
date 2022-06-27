@@ -4,5 +4,5 @@ import ru.javarush.island.bulimov.islandMap.Cell;
 
 @FunctionalInterface
 public interface Eating {
-    void eating(Cell cell);
+    boolean eating(Cell cell);
 }

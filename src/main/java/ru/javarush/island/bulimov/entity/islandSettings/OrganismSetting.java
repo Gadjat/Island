@@ -1,10 +1,15 @@
-package ru.javarush.island.bulimov.islandSettings;
+package ru.javarush.island.bulimov.entity.islandSettings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import ru.javarush.island.bulimov.entity.Organism;
 import ru.javarush.island.bulimov.entity.animals.carnivores.*;
 import ru.javarush.island.bulimov.entity.animals.herbivores.*;
 import ru.javarush.island.bulimov.entity.plants.Plant;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class OrganismSetting {
@@ -29,6 +34,8 @@ public class OrganismSetting {
 
         animals.add(new Plant(1.0, 200, 0));
     }
+
+
 
     public static HashSet<Organism> getAnimals() {
         return animals;
@@ -71,11 +78,11 @@ public class OrganismSetting {
         return percent;
     }
 
-//    public static void main(String[] args) throws IOException {
-//        ObjectMapper yaml = new ObjectMapper(new YAMLFactory());
-//        yaml.enable(SerializationFeature.INDENT_OUTPUT);
-//        HashSet<Organism> animalsEatPercent = OrganismSetting.getAnimals();
-//        yaml.writeValue(new File("setting.yaml"), animalsEatPercent);
-//
-//    }
+    public static void main(String[] args) throws IOException {
+        ObjectMapper yaml = new ObjectMapper(new YAMLFactory());
+        yaml.enable(SerializationFeature.INDENT_OUTPUT);
+        HashSet<Organism> animalsEatPercent = OrganismSetting.getAnimals();
+        yaml.writeValue(new File("setting.yaml"), animalsEatPercent);
+
+    }
 }

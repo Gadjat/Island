@@ -37,14 +37,14 @@ public class IslandMapCreator {
             }
         }
     }
-    public Cell[][] getAnimalMap() {
+    public static Cell[][] getAnimalMap() {
         return animalMap;
     }
 
     public static void main(String[] args) {
         IslandMapCreator islandMapCreator = new IslandMapCreator(100, 20);
         islandMapCreator.createMap();
-        for (int i = 0; i < islandMapCreator.getAnimalMap().length; i++) {
+        for (int i = 0; i < getAnimalMap().length; i++) {
             for (int j = 0; j < islandMapCreator.getAnimalMap()[i].length; j++) {
                 islandMapCreator.getAnimalMap()[i][j].toStringAnimal();
             }

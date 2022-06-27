@@ -19,8 +19,7 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class OrganismSetting {
-
-    private static HashSet<Organism> animals = new HashSet<Organism>(){};
+    private final static HashSet<Organism> animals = new HashSet<>(){};
     static{
         animals.add(new Wolf(50.0, 30, 3, 8,4.0));
         animals.add(new Boa(15, 30, 1, 3,1.5));
@@ -38,6 +37,7 @@ public class OrganismSetting {
         animals.add(new Buffalo(700, 10, 3, 100,50.0));
         animals.add(new Duck(1, 200, 4, 0.15,0.5));
         animals.add(new Caterpillar(0.01, 1000, 0, 0,0));
+
         animals.add(new Plant(1.0, 200, 0));
     }
 
@@ -49,13 +49,13 @@ public class OrganismSetting {
 
 
 
-    static String[] names = {
+    private static final String[] names = {
             "Wolf", "Boa", "Fox", "Bear", "Eagle",
             "Horse", "Deer", "Rabbit", "Mouse", "Goat", "Sheep", "Boar", "Buffalo", "Duck", "Caterpillar",
             "Plant",
     };
 
-    static int[][] percent = {
+    private static final int[][] percent = {
             {0, 0, 0, 0, 0, 10, 15, 60, 80, 60, 70, 15, 10, 40, 0, 0},
             {0, 0, 15, 0, 0, 0, 0, 20, 40, 0, 0, 0, 0, 10, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 70, 90, 0, 0, 0, 0, 60, 40, 0},

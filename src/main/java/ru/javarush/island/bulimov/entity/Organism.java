@@ -1,7 +1,6 @@
 package ru.javarush.island.bulimov.entity;
 
 import ru.javarush.island.bulimov.abstractions.Reproducing;
-import ru.javarush.island.bulimov.entity.islandSettings.OrganismSetting;
 import ru.javarush.island.bulimov.exception.IslandRunException;
 import ru.javarush.island.bulimov.islandMap.Cell;
 
@@ -16,6 +15,7 @@ public abstract class Organism implements Reproducing, Cloneable{
 
     private long id = idCounter.incrementAndGet();
     public String name;
+    public String icon;
     public double weight;
     public int maxItemCell;
     public double saturation;

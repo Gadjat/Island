@@ -5,6 +5,7 @@ import ru.javarush.island.bulimov.entity.islandSettings.OrganismSetting;
 
 import java.util.HashSet;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class IslandMapCreator {
     public int column;
@@ -36,6 +37,7 @@ public class IslandMapCreator {
             }
         }
     }
+
     public static Cell[][] getAnimalMap() {
         return animalMap;
     }

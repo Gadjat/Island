@@ -4,6 +4,7 @@ import ru.javarush.island.bulimov.entity.Game;
 import ru.javarush.island.bulimov.entity.repository.AnimalsFactory;
 import ru.javarush.island.bulimov.exception.IslandRunException;
 import ru.javarush.island.bulimov.islandMap.Island;
+import ru.javarush.island.bulimov.settings.Config;
 import ru.javarush.island.bulimov.view.ConsoleView;
 
 
@@ -15,9 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GameWorker extends Thread{
-    private final Game game = new Game(new Island(100, 20), AnimalsFactory.getAnimals(), new ConsoleView());
+    private final Game game = new Game(new Island(Config.COLUMN, Config.LINE), AnimalsFactory.getAnimals(), new ConsoleView());
     public static final int CORE_POOL_SIZE = 4;
-    private static final int PERIOD = 1000;
 
 
 
@@ -35,7 +35,7 @@ public class GameWorker extends Thread{
                 .map(organism -> new OrganismWorker(organism, game.getIsland()))
                 .collect(Collectors.toList());
 
-        mainPool.scheduleWithFixedDelay(() -> runWorkers(game.getView(), workers), PERIOD, PERIOD, TimeUnit.MILLISECONDS);
+        mainPool.scheduleWithFixedDelay(() -> runWorkers(game.getView(), workers), Config.PERIOD, Config.PERIOD, TimeUnit.MILLISECONDS);
 
     }
     private void runWorkers(ConsoleView view , List<OrganismWorker> workers) {

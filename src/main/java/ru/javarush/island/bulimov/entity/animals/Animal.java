@@ -35,17 +35,24 @@ public abstract class Animal extends Organism implements Eating, Movable {
         cell.getLock().lock();
         try{
             if(this.weight > 0){
+                int iter = -1;
+                int rnd = Random.random(0, findEat(this).size());
                 for (Map.Entry<String, Integer> pair : findEat(this).entrySet()) {
-                    if(cell.getAnimalsCell().get(pair.getKey())!= null && cell.getAnimalsCell().get(pair.getKey()).size() > 0){
-                        for (Organism organism : cell.getAnimalsCell().get(pair.getKey())) {
-                            if(organism.weight > 0 && Random.random(0, 100) > pair.getValue()){
-                                if(this.saturation + organism.weight >= this.maxSaturation) this.saturation = this.maxSaturation;
-                                else this.saturation += organism.weight;
-                                organism.weight = 0;
-                                break;
+                    iter++;
+                    if (iter == rnd){
+                        if(cell.getAnimalsCell().get(pair.getKey())!= null
+                                && cell.getAnimalsCell().get(pair.getKey()).size() > 0){
+                            for (Organism organism : cell.getAnimalsCell().get(pair.getKey())) {
+                                if(organism.weight > 0 && Random.random(0, 100) > pair.getValue()){
+                                    if(this.saturation + organism.weight >= this.maxSaturation) this.saturation = this.maxSaturation;
+                                    else this.saturation += organism.weight;
+                                    organism.weight = 0;
+                                    break;
+                                }
                             }
                         }
                     }
+
                 }
             }
             return false;

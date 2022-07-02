@@ -3,10 +3,18 @@ package ru.javarush.island.bulimov.entity.animals;
 import ru.javarush.island.bulimov.abstractions.Eating;
 import ru.javarush.island.bulimov.abstractions.Movable;
 import ru.javarush.island.bulimov.entity.Organism;
+import ru.javarush.island.bulimov.entity.animals.carnivores.Wolf;
+import ru.javarush.island.bulimov.entity.repository.AnimalsFactory;
+import ru.javarush.island.bulimov.exception.IslandRunException;
 import ru.javarush.island.bulimov.islandMap.Cell;
-import ru.javarush.island.bulimov.islandMap.IslandMapCreator;
-import ru.javarush.island.bulimov.entity.islandSettings.OrganismSetting;
+import ru.javarush.island.bulimov.islandMap.Island;
+import ru.javarush.island.bulimov.settings.OrganismSetting;
+import ru.javarush.island.bulimov.util.Random;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -23,38 +31,28 @@ public abstract class Animal extends Organism implements Eating, Movable {
     }
 
     @Override
-    public boolean eating(Cell cell) {
+    public boolean eating(Cell cell){
         cell.getLock().lock();
         try{
-            for (int animalName = 0; animalName < OrganismSetting.getNames().length; animalName++) {
-                if(OrganismSetting.getNames()[animalName].equals(this.name)) {
-                    for (int percent = 0; percent < OrganismSetting.getPercent()[animalName].length; percent++) {
-                        if (OrganismSetting.getPercent()[animalName][percent] > 0) {
-                            for (Organism organism : cell.getAnimalsCell().get(OrganismSetting.getNames()[percent])) {
-                                if (organism.weight > 0 && ThreadLocalRandom.current().nextInt(100 - OrganismSetting.getPercent()[animalName][percent], 100)
-                                        >= 100 - OrganismSetting.getPercent()[animalName][percent]) {
-                                    if (this.saturation + organism.weight >= this.maxSaturation) {
-                                        this.saturation = this.maxSaturation;
-                                    } else {
-                                        this.saturation += organism.weight;
-                                    }
-                                    organism.weight = 0;
-                                    return true;
-
-                                }
+            if(this.weight > 0){
+                for (Map.Entry<String, Integer> pair : findEat(this).entrySet()) {
+                    if(cell.getAnimalsCell().get(pair.getKey())!= null && cell.getAnimalsCell().get(pair.getKey()).size() > 0){
+                        for (Organism organism : cell.getAnimalsCell().get(pair.getKey())) {
+                            if(organism.weight > 0 && Random.random(0, 100) > pair.getValue()){
+                                if(this.saturation + organism.weight >= this.maxSaturation) this.saturation = this.maxSaturation;
+                                else this.saturation += organism.weight;
+                                organism.weight = 0;
+                                break;
                             }
                         }
                     }
                 }
-
             }
             return false;
         }
         finally {
             cell.getLock().unlock();
         }
-
-
     }
     @Override
     public boolean reproducing(Cell cell)  {
@@ -66,69 +64,96 @@ public abstract class Animal extends Organism implements Eating, Movable {
                         .findAny()
                         .get().pregnancy = true;
                 return true;
-
-
             }
             return false;
         }
         finally {
             cell.getLock().unlock();
         }
-
-
     }
     @Override
     public boolean moving(Cell cell) {
-        //Поменять switch на метод
         cell.getLock().lock();
-        try{
+        int column = cell.column;
+        int line = cell.line;
+        try {
             if (this.weight > 0){
-                cell.getAnimalsCell().get(this.name).removeIf(organism -> organism.equals(this));
-                int rout = ThreadLocalRandom.current().nextInt(0, 4);
+                this.remove(cell);
+                int rout = Random.random(0, 3);
                 switch (rout) {
-                    case 1 -> {
-                        if (cell.column + this.maxItemCell >= 100)
-                            cell.column = 100;
+                    case 0 -> {
+                        if (column + this.maxItemCell >= 100)
+                            column = 100;
                         else {
-                            cell.column += this.maxItemCell;
+                            column += this.maxItemCell;
+                        }
+                    }
+                    case 1 -> {
+                        if (column - this.maxItemCell <= 0)
+                            column = 0;
+                        else {
+                            column -= this.maxItemCell;
                         }
                     }
                     case 2 -> {
-                        if (cell.column - this.maxItemCell <= 0)
-                            cell.column = 0;
+                        if (line + this.maxItemCell >= 20)
+                            line = 20;
                         else {
-                            cell.column -= this.maxItemCell;
+                            line += this.maxItemCell;
                         }
                     }
                     case 3 -> {
-                        if (cell.line + this.maxItemCell >= 20)
-                            cell.line = 20;
+                        if (line - this.maxItemCell <= 0)
+                            line = 0;
                         else {
-                            cell.line += this.maxItemCell;
-                        }
-                    }
-                    case 4 -> {
-                        if (cell.line - this.maxItemCell <= 0)
-                            cell.line = 0;
-                        else {
-                            cell.line -= this.maxItemCell;
+                            line -= this.maxItemCell;
                         }
                     }
                 }
-                IslandMapCreator.getAnimalMap()[cell.column][cell.line].getAnimalsCell().get(this.name).add(this);
-                if(this.pregnancy){
-                    IslandMapCreator.getAnimalMap()[cell.column][cell.line].getAnimalsCell().get(this.name).add(Organism.clone(this));
-                }
-                this.saturation -= 1;
+                this.goNewCell(column, line);
+                this.weight -= 0.5;
                 return true;
             }
             return false;
         }
         finally {
             cell.getLock().unlock();
-        }
-
-
+        }//Поменять switch на метод
     }
+    public void remove(Cell cell){
+        cell.getLock().lock();
+        try{
+            cell.getAnimalsCell().get(this.name).remove(this);
+        }
+        finally {
+            cell.getLock().unlock();
+        }
+    }
+    public void goNewCell(int column, int line){
+        Island.getAnimalMap()[column][line].getLock().lock();
+        try{
+            Island.getAnimalMap()[column][line].getAnimalsCell().get(this.name).add(this);
+        }
+        finally {
+            Island.getAnimalMap()[column][line].getLock().unlock();
+        }
+    }
+
+    public static HashMap<String, Integer> findEat(Organism organism){
+        HashMap<String, Integer> eat = new HashMap<>();
+        for (int name = 0; name < OrganismSetting.getNames().length; name++) {
+            if(organism.name.equals(OrganismSetting.getNames()[name])){
+                for (int percent = 0; percent < OrganismSetting.getPercent()[name].length; percent++) {
+                    if(OrganismSetting.getPercent()[name][percent] > 0){
+                        eat.put(OrganismSetting.getNames()[percent], OrganismSetting.getPercent()[name][percent]);
+                    }
+                }
+            }
+        }
+        return eat;
+    }
+
+
+
 
 }

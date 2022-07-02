@@ -63,6 +63,24 @@ public abstract class Organism implements Reproducing, Cloneable{
         }
 
     }
+    public void aging(Cell cell){
+        cell.getLock().lock();
+        try{
+            this.weight-=0.5;
+        }
+        finally {
+            cell.getLock().unlock();
+        }
+    }
+    public void deleteDead(Cell cell) {
+        cell.getLock().lock();
+        try{
+            cell.getAnimalsCell().get(this.name).removeIf(organism -> organism.weight<=0.0);
+        }
+        finally {
+            cell.getLock().unlock();
+        }
+    }
 
 
 

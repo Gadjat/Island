@@ -1,18 +1,20 @@
 package ru.javarush.island.bulimov.islandMap;
 
 import ru.javarush.island.bulimov.entity.Organism;
-import ru.javarush.island.bulimov.entity.islandSettings.OrganismSetting;
+import ru.javarush.island.bulimov.settings.OrganismSetting;
+import ru.javarush.island.bulimov.entity.repository.AnimalsFactory;
+import ru.javarush.island.bulimov.util.Random;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
-public class IslandMapCreator {
+public class Island {
     public int column;
     public int line;
     private static Cell[][] animalMap = new Cell[][]{};
 
-    public IslandMapCreator(int column, int line) {
+    public Island(int column, int line) {
         this.column = column;
         this.line = line;
         animalMap = new Cell[column][line];
@@ -22,16 +24,16 @@ public class IslandMapCreator {
         for (int i = 0; i < animalMap.length; i++) {
             for (int j = 0; j < animalMap[i].length; j++) {
                 animalMap[i][j] = new Cell(i,j);
-                for (Organism animal : OrganismSetting.getAnimals()){
+
+                for(Map.Entry<Integer,Organism> pair : AnimalsFactory.getAnimals().entrySet()){
                     HashSet<Organism> organisms = new HashSet<>();
-                    int maxAnimalCell = ThreadLocalRandom.current().nextInt(0, animal.maxItemCell);
+                    int maxAnimalCell = Random.random(0, pair.getValue().maxItemCell);
                     for (int k = 0; k < maxAnimalCell; k++) {
-                        organisms.add(Organism.clone(animal));
+                        organisms.add(Organism.clone(pair.getValue()));
                     }
                     if(!organisms.isEmpty()){
-                        animalMap[i][j].getAnimalsCell().put(animal.name, organisms);
+                        animalMap[i][j].getAnimalsCell().put(pair.getValue().name, organisms);
                     }
-
                 }
 
             }

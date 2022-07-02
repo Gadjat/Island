@@ -23,6 +23,9 @@ public class Task {
         } else {
             organism.reproducing(cell);
         }
+        organism.aging(cell);
+        organism.deleteDead(cell);
+
     }
 
 }

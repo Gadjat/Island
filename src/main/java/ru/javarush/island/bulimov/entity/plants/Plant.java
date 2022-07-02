@@ -9,6 +9,7 @@ public class Plant extends Organism {
     public Plant(double weight, int maxItemCell, double saturation) {
         super(weight, maxItemCell, saturation);
         this.name = "Plant";
+        this.icon = "\uD83C\uDF3F";
     }
 
 }

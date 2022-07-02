@@ -1,13 +1,12 @@
 package ru.javarush.island.bulimov.islandMap;
 
 import ru.javarush.island.bulimov.entity.Organism;
-import ru.javarush.island.bulimov.settings.OrganismSetting;
 import ru.javarush.island.bulimov.entity.repository.AnimalsFactory;
 import ru.javarush.island.bulimov.util.Random;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Island {
     public int column;

@@ -26,7 +26,7 @@ public class Island {
 
                 for(Map.Entry<Integer,Organism> pair : AnimalsFactory.getAnimals().entrySet()){
                     HashSet<Organism> organisms = new HashSet<>();
-                    int maxAnimalCell = Random.random(pair.getValue().maxItemCell);
+                    int maxAnimalCell = Random.random(pair.getValue().maxItemCell +1)/2;
                     for (int k = 0; k < maxAnimalCell; k++) {
                         organisms.add(Organism.clone(pair.getValue()));
                     }

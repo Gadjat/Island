@@ -13,6 +13,7 @@ public class ConsoleView {
         int max = 0;
         for (Cell[] row : Island.getAnimalMap()) {
             for (Cell cell : row) {
+                
                 for (String name : OrganismSetting.getNames()) {
                     if(cell.getAnimalsCell().get(name)!= null && max <= cell.getAnimalsCell().get(name).size()){
                         max = cell.getAnimalsCell().get(name).size();

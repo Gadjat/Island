@@ -139,7 +139,8 @@ public abstract class Animal extends Organism implements Eating, Movable {
     public void goNewCell(int column, int line){
         Island.getAnimalMap()[column][line].getLock().lock();
         try{
-            Island.getAnimalMap()[column][line].getAnimalsCell().get(this.name).add(this);
+            if(Island.getAnimalMap()[column][line].getAnimalsCell().get(this.name).size()< this.maxItemCell)
+                Island.getAnimalMap()[column][line].getAnimalsCell().get(this.name).add(this);
         }
         finally {
             Island.getAnimalMap()[column][line].getLock().unlock();

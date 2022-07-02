@@ -34,7 +34,7 @@ public abstract class Organism implements Reproducing, Cloneable{
     public boolean reproducing(Cell cell) {
         cell.getLock().lock();
         try{
-            if(cell.getAnimalsCell().get(this.name).size() <= this.maxItemCell){
+            if(cell.getAnimalsCell().get(this.name).size() <= this.maxItemCell/2){
                 cell.getAnimalsCell().get(this.name).add(Organism.clone(this));
                 return true;
             }

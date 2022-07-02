@@ -40,6 +40,7 @@ public class OrganismWorker implements  Runnable{
             if(cell.getAnimalsCell().get(organism.name) != null){
                 for (Organism organism : cell.getAnimalsCell().get(organism.name)) {
                     tasks.add(new Task(organism, cell));
+
                 }
             }
 
@@ -49,7 +50,6 @@ public class OrganismWorker implements  Runnable{
         }
         tasks.forEach(Task::doTask);
         tasks.clear();
-
 
 
     }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class GameWorker extends Thread{
     private final Game game = new Game(new Island(Config.COLUMN, Config.LINE), AnimalsFactory.getAnimals(), new ConsoleView());
-    public static final int CORE_POOL_SIZE = 4;
+    public static final int CORE_POOL_SIZE = 12;
 
 
 
